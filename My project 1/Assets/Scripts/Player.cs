@@ -6,28 +6,6 @@ using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private bool jumpKeyWasPressed;
     private float horizontalInput;
     private float verticalInput;
