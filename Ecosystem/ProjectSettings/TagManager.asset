@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FlowerTag
   - ShipTag
+  - WolfTag
   layers:
   - Default
   - TransparentFX

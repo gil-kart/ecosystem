@@ -72,6 +72,5 @@ public class Wolf : MonoBehaviour
         Debug.Log(collision.gameObject.gameObject.name);
         if (collision.gameObject.CompareTag("ShipTag"))
             Destroy(collision.gameObject);
-
     }
 }
