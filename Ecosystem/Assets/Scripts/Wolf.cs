@@ -1,22 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; 
 
-
-public class Player : MonoBehaviour
+public class Wolf : MonoBehaviour
 {
-    private bool jumpKeyWasPressed;
     private bool upKeyWasPressed;
     private bool downKeyWasPressed;
     private bool leftKeyWasPressed;
     private bool rightKeyWasPressed;
-    private float horizontalInput;
-    private float verticalInput;
     private Rigidbody rigidBodyComponent;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         rigidBodyComponent = GetComponent<Rigidbody>();
@@ -25,42 +18,30 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            jumpKeyWasPressed = true;
-        }
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             upKeyWasPressed = true;
         }
-        if (Input.GetKeyDown(KeyCode.R)) 
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             downKeyWasPressed = true;
         }
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             leftKeyWasPressed = true;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             rightKeyWasPressed = true;
         }
-
     }
 
     private void FixedUpdate()
     {
-        if (jumpKeyWasPressed)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigidBodyComponent.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
-            jumpKeyWasPressed = false;
+            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y + 5, rigidBodyComponent.velocity.z);
         }
-        //rigidBodyComponent.velocity = new Vector3(horizontalInput * 3, rigidBodyComponent.velocity.y, verticalInput * 3);
-        //rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-2, 3), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-2, 3));
-
         if (upKeyWasPressed)
         {
             rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + 5, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
@@ -79,31 +60,18 @@ public class Player : MonoBehaviour
         if (rightKeyWasPressed)
         {
             rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z - 5);
-            rightKeyWasPressed = false; 
+            rightKeyWasPressed = false;
         }
-            
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {/*
-        Debug.Log("collision has happend!");
-        if (other.GetComponent<Collider>().CompareTag("FlowerTag"))
-        {
-            Debug.Log("Destroying by tag!");
-            Destroy(other.gameObject);
-        }
-        */
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("FlowerTag"))
+        Debug.Log("detected collision!");
+        Debug.Log(this.gameObject.gameObject.name);
+        Debug.Log("has collided with: ");
+        Debug.Log(collision.gameObject.gameObject.name);
+        if (collision.gameObject.CompareTag("ShipTag"))
             Destroy(collision.gameObject);
-        if (collision.gameObject.CompareTag("WolfTag"))
-        {
-            Destroy(this);
-        }
-    }
 
+    }
 }
