@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody rigidBodyComponent;
-    private GameObject offSpring;
+    public Player offSpring;
     private float timePassed = 0f;
-    private bool isFemale;
+    public bool isFemale;
 
     // Start is called before the first frame update
     void Start()
@@ -87,18 +87,6 @@ public class Player : MonoBehaviour
             
     }
 
-    private void OnTriggerEnter(Collider other)
-    {/*
-        Debug.Log("collision has happend!");
-        if (other.GetComponent<Collider>().CompareTag("FlowerTag"))
-        {
-            Debug.Log("Destroying by tag!");
-            Destroy(other.gameObject);
-        }
-        */
-
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("FlowerTag"))
@@ -107,10 +95,32 @@ public class Player : MonoBehaviour
         {
             Destroy(this);
         }
-        if (collision.gameObject.CompareTag("ShipTag") && timePassed > 13f)
+        if (collision.gameObject.CompareTag("ShipTag") && timePassed > 10f && this.isFemale)
         {
-            GameObject newSheep  = Instantiate(collision.gameObject, collision.gameObject.transform.position, Quaternion.identity);
-            timePassed = 0;
+            try
+            {
+                Player other = collision.gameObject.GetComponent<Player>(); 
+                if (!other.isFemale)
+                {
+                    _ = Random.value  > 0.5f ? offSpring.isFemale = true: offSpring.isFemale = false;
+                    Instantiate(offSpring, collision.gameObject.transform.position, Quaternion.identity);
+                    timePassed = 0;
+                }
+            }
+            catch
+            {
+                Debug.Log("mating failed!");
+            }
+            
         }
+    }
+
+    public static explicit operator Player(GameObject v)
+    {
+        global::System.Type type = v.GetType();
+        if (type == typeof(Player)) 
+            return (Player)v;   
+        return null;
+        throw new System.NotImplementedException();
     }
 }
