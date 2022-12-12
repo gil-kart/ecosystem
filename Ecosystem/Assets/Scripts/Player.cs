@@ -14,7 +14,9 @@ public class Player : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody rigidBodyComponent;
-
+    private GameObject offSpring;
+    private float timePassed = 0f;
+    private bool isFemale;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +50,7 @@ public class Player : MonoBehaviour
         {
             rightKeyWasPressed = true;
         }
+        timePassed += Time.deltaTime;
 
     }
 
@@ -104,6 +107,10 @@ public class Player : MonoBehaviour
         {
             Destroy(this);
         }
+        if (collision.gameObject.CompareTag("ShipTag") && timePassed > 13f)
+        {
+            GameObject newSheep  = Instantiate(collision.gameObject, collision.gameObject.transform.position, Quaternion.identity);
+            timePassed = 0;
+        }
     }
-
 }
