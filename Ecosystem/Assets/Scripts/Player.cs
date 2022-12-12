@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
             jumpKeyWasPressed = false;
         }
         //rigidBodyComponent.velocity = new Vector3(horizontalInput * 3, rigidBodyComponent.velocity.y, verticalInput * 3);
-        //rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-2, 3), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-2, 3));
+        rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-2, 3), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-2, 3));
 
         if (upKeyWasPressed)
         {
