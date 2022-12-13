@@ -7,11 +7,13 @@ TagManager:
   - FlowerTag
   - ShipTag
   - WolfTag
+  - SheepsTag
+  - FlowersTag
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Sheeps
   - Water
   - UI
   - Flower

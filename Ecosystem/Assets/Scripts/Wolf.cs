@@ -66,10 +66,6 @@ public class Wolf : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("detected collision!");
-        Debug.Log(this.gameObject.gameObject.name);
-        Debug.Log("has collided with: ");
-        Debug.Log(collision.gameObject.gameObject.name);
         if (collision.gameObject.CompareTag("ShipTag"))
             Destroy(collision.gameObject);
     }
