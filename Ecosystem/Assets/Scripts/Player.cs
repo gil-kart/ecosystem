@@ -23,10 +23,12 @@ public class Player : MonoBehaviour
     [SerializeField] RandomObjectSpawner spawner;
     private float curHunger;
     [SerializeField] private HungerBar hungerBar;
+    [SerializeField] private PlayerNavMesh playerNaveMesh;
 
     // Start is called before the first frame update
     void Start()
     {
+        
         curHunger = maxHunger;
         rigidBodyComponent = GetComponent<Rigidbody>();
         hungerBar.updateHungerBar(maxHunger, curHunger);
@@ -104,10 +106,10 @@ public class Player : MonoBehaviour
             rightKeyWasPressed = false; 
         }
 
-        if (Random.value > 0.5f)
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-5, 6), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
-        else
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-5, 6));
+       // if (Random.value > 0.5f)
+         //   rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-5, 6), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
+        //else
+       //     rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-5, 6));
 
     }
 
@@ -115,14 +117,27 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("FlowerTag"))
         {
-            Destroy(collision.gameObject);
+
+            playerNaveMesh.foodLocation = collision.gameObject.transform.position;
+            playerNaveMesh.goingToFindFood = true;
+            
+            if (Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position) < 7)
+            {
+                Destroy(collision.gameObject);
+                playerNaveMesh.goingToFindFood = false;
+                playerNaveMesh.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
+
+            }
+                
             curHunger += 0.4f;
+            spawner.flowerCount--;
         }
             
         if (collision.gameObject.CompareTag("WolfTag"))
         {
-            Destroy(this);
-            spawner.flowerCount--;
+            if ((this.gameObject.transform.position - collision.gameObject.transform.position).sqrMagnitude < 7)
+                Destroy(collision.gameObject);
+
         }
         if (collision.gameObject.CompareTag("ShipTag") && !isPregnent && this.isFemale)
         {
