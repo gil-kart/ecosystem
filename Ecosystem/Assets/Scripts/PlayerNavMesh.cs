@@ -29,19 +29,10 @@ public class PlayerNavMesh : MonoBehaviour
         {
             agent.destination = foodLocation;
         }
-        else if (!goingToFindFood)
+        else if (!goingToFindFood || (Vector3.Distance(agent.destination, destination) < 8))
         {
             agent.destination = destination;
         }
-
-        if(Vector3.Distance(agent.destination, destination) < 1)
-        {
-            agent.destination = destination;
-        }
-        
-
-
-
 
         timePassed += Time.deltaTime;
     }

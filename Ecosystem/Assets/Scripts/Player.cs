@@ -135,8 +135,12 @@ public class Player : MonoBehaviour
             
         if (collision.gameObject.CompareTag("WolfTag"))
         {
-            if ((this.gameObject.transform.position - collision.gameObject.transform.position).sqrMagnitude < 7)
-                Destroy(collision.gameObject);
+            if ((Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position)) < 25)
+            {
+                Debug.Log("wolf ahead!");
+                //Destroy(collision.gameObject);
+            }
+                
 
         }
         if (collision.gameObject.CompareTag("ShipTag") && !isPregnent && this.isFemale)

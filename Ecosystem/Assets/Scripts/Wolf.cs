@@ -9,6 +9,7 @@ public class Wolf : MonoBehaviour
     private bool leftKeyWasPressed;
     private bool rightKeyWasPressed;
     private Rigidbody rigidBodyComponent;
+    [SerializeField] private PlayerNavMesh playerNaveMesh;
 
     void Start()
     {
@@ -67,6 +68,21 @@ public class Wolf : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("ShipTag"))
-            Destroy(collision.gameObject);
+        {
+            Debug.Log("detected sheep!");
+            playerNaveMesh.foodLocation = collision.gameObject.transform.position;
+            playerNaveMesh.goingToFindFood = true;
+            playerNaveMesh.agent.speed += 25;
+            if ((Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position)) < 21)
+            {
+                Debug.Log("destroying sheep!");
+                Destroy(collision.gameObject);
+                playerNaveMesh.foodLocation = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
+                playerNaveMesh.goingToFindFood = false;
+                playerNaveMesh.agent.speed -= 25;
+            }
+            
+        }
+            
     }
 }
