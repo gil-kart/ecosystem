@@ -126,18 +126,17 @@ public class Player : MonoBehaviour
                 Destroy(collision.gameObject);
                 playerNaveMesh.goingToFindFood = false;
                 playerNaveMesh.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
-
+                curHunger += 0.4f;
+                spawner.flowerCount--;
             }
                 
-            curHunger += 0.4f;
-            spawner.flowerCount--;
         }
             
         if (collision.gameObject.CompareTag("WolfTag"))
         {
-            if ((Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position)) < 25)
+            if ((Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position)) < 7)
             {
-                Debug.Log("wolf ahead!");
+               // Debug.Log("wolf ahead!");
                 //Destroy(collision.gameObject);
             }
                 
@@ -153,7 +152,6 @@ public class Player : MonoBehaviour
 
                     isPregnent = true;
                     Invoke("spawn", 3.0f);
-                    Debug.Log("mating is successful!");
                     timePassed = 0;
                 }
             }

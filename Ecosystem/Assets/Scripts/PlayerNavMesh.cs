@@ -14,26 +14,34 @@ public class PlayerNavMesh : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
+        agent.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
+        goingToFindFood = false;
 
     }
     private void Update()
     {
         if (!goingToFindFood && timePassed > 4f)
         {
-            agent.destination = destination;
-            destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
+            agent.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640)); 
             timePassed = 0f;
         }
         else if (goingToFindFood)
         {
             agent.destination = foodLocation;
         }
-        else if (!goingToFindFood || (Vector3.Distance(agent.destination, destination) < 8))
+
+        if(timePassed > 7f)
         {
-            agent.destination = destination;
+            agent.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
+            timePassed = 0f;
+            goingToFindFood = false;
         }
 
         timePassed += Time.deltaTime;
+    }
+
+    public void updateDestination(Vector3 dest) 
+    {
+        agent.destination = dest;
     }
 }
