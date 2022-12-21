@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; 
+using UnityEngine.AI;
 
 
 public class Player : MonoBehaviour
@@ -24,11 +24,13 @@ public class Player : MonoBehaviour
     private float curHunger;
     [SerializeField] private HungerBar hungerBar;
     [SerializeField] private PlayerNavMesh playerNaveMesh;
+    private int numberOfPregnencys = 0;
+    private bool isYoung = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
         curHunger = maxHunger;
         rigidBodyComponent = GetComponent<Rigidbody>();
         hungerBar.updateHungerBar(maxHunger, curHunger);
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour
         {
             upKeyWasPressed = true;
         }
-        if (Input.GetKeyDown(KeyCode.R)) 
+        if (Input.GetKeyDown(KeyCode.R))
         {
             downKeyWasPressed = true;
         }
@@ -68,6 +70,12 @@ public class Player : MonoBehaviour
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
         }
+        if (timePassed > 10 && isYoung)
+        {
+            isYoung = false;
+            transform.localScale *= 2;
+        }
+        
 
     }
 
@@ -103,13 +111,13 @@ public class Player : MonoBehaviour
         if (rightKeyWasPressed)
         {
             rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z - 5);
-            rightKeyWasPressed = false; 
+            rightKeyWasPressed = false;
         }
 
-       // if (Random.value > 0.5f)
-         //   rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-5, 6), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
+        // if (Random.value > 0.5f)
+        //   rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + Random.Range(-5, 6), rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
         //else
-       //     rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-5, 6));
+        //     rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + Random.Range(-5, 6));
 
     }
 
@@ -120,61 +128,74 @@ public class Player : MonoBehaviour
 
             playerNaveMesh.foodLocation = collision.gameObject.transform.position;
             playerNaveMesh.goingToFindFood = true;
-            
+
             if (Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position) < 7)
             {
-                Destroy(collision.gameObject);
+                Flower f = collision.gameObject.GetComponent<Flower>();
+                f.setToDestroyed();
+                //Destroy(collision.gameObject);
                 playerNaveMesh.goingToFindFood = false;
                 playerNaveMesh.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
                 curHunger += 0.4f;
                 spawner.flowerCount--;
             }
-                
+
         }
-            
+
         if (collision.gameObject.CompareTag("WolfTag"))
         {
             try
             {
                 Debug.Log("runing from wolf!!");
-                Vector3 oppositeWolfDirection = -(transform.position - collision.gameObject.transform.position);
+                Vector3 oppositeWolfDirection = transform.position - collision.gameObject.transform.position;
                 playerNaveMesh.goingToFindFood = false;
-                Vector3 newDest = new Vector3(transform.position.x + oppositeWolfDirection.x + 600, 3, 600 + transform.position.z + oppositeWolfDirection.z);
+                Vector3 newDest = new Vector3(collision.gameObject.transform.position.x + oppositeWolfDirection.x + 600, 3, 600 + collision.gameObject.transform.position.z + oppositeWolfDirection.z);
                 playerNaveMesh.updateDestination(newDest);
-                playerNaveMesh.updateSpeed(60);
+                playerNaveMesh.updateSpeed(30);
             }
             catch
             {
 
             }
         }
-        if (collision.gameObject.CompareTag("ShipTag") && !isPregnent && this.isFemale)
+        if (collision.gameObject.CompareTag("ShipTag"))
         {
-            try
-            {
-                Player other = collision.gameObject.GetComponent<Player>(); 
-                if (!other.isFemale)
-                {
+            Player other = collision.gameObject.GetComponent<Player>();
 
-                    isPregnent = true;
-                    Invoke("spawn", 3.0f);
-                    timePassed = 0;
+            if ((!isPregnent && this.isFemale && !other.isFemale) || (!isFemale && other.isFemale && other.isPregnent))
+            {
+                try
+                {
+                    if (!other.isFemale && numberOfPregnencys < 4)
+                    {
+                        numberOfPregnencys++;
+                        isPregnent = true;
+                        Invoke("spawn", 5.0f);
+                    }
+                    /*else if(other.numberOfPregnencys < 4)
+                    {
+                        other.isPregnent = true;
+                        other.Invoke("spawn", 5.0f);
+                    }*/
+                }
+                catch
+                {
+                    Debug.Log("mating failed!");
                 }
             }
-            catch
-            {
-                Debug.Log("mating failed!");
-            }
-            
         }
-    }
+    } 
+
+
 
     public void spawn()
     {
         _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;
         Player offSpr = Instantiate(offSpring, this.gameObject.transform.position, Quaternion.identity);
+        offSpr.transform.localScale /= 2;
         GameObject Parent = GameObject.FindGameObjectsWithTag("SheepsTag")[0];
         offSpr.transform.SetParent(Parent.transform);
+        isPregnent = false;
     }
 
     public static explicit operator Player(GameObject v)

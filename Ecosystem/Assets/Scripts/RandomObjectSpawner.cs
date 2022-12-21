@@ -15,7 +15,7 @@ public class RandomObjectSpawner : MonoBehaviour
         timePassed += Time.deltaTime;
         if (((timePassed > 4f) || Input.GetKeyDown(KeyCode.W)) && flowerCount < 16) 
         {
-            Vector3 randomSpawnPosition = new Vector3(Random.Range(460, 750), 3, Random.Range(430, 550));
+            Vector3 randomSpawnPosition = new Vector3(Random.Range(460, 650), 3, Random.Range(430, 550));
             GameObject flowerOffSpr = Instantiate(myObject, randomSpawnPosition, Quaternion.AngleAxis(-90, Vector3.right));
             GameObject Parent = GameObject.FindGameObjectsWithTag("FlowersTag")[0];
             flowerOffSpr.transform.SetParent(Parent.transform);
