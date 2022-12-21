@@ -34,7 +34,6 @@ public class Wolf : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("ShipTag"))
         {
-            //Debug.Log("collision enter number " + collisionCount);
             collisionCount++;
             playerNaveMesh.updateDestination(collision.gameObject.transform.position);
             playerNaveMesh.goingToFindFood = true;

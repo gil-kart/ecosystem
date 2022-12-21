@@ -35,9 +35,16 @@ public class PlayerNavMesh : MonoBehaviour
             agent.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
             timePassed = 0f;
             goingToFindFood = false;
+            agent.speed = 17;
         }
 
         timePassed += Time.deltaTime;
+    }
+
+    public void updateSpeed(int speed)
+    {
+        agent.speed = speed;
+        timePassed = 0f;
     }
 
     public void updateDestination(Vector3 dest) 

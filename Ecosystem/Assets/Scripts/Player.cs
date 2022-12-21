@@ -134,13 +134,19 @@ public class Player : MonoBehaviour
             
         if (collision.gameObject.CompareTag("WolfTag"))
         {
-            if ((Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position)) < 7)
+            try
             {
-               // Debug.Log("wolf ahead!");
-                //Destroy(collision.gameObject);
+                Debug.Log("runing from wolf!!");
+                Vector3 oppositeWolfDirection = -(transform.position - collision.gameObject.transform.position);
+                playerNaveMesh.goingToFindFood = false;
+                Vector3 newDest = new Vector3(transform.position.x + oppositeWolfDirection.x + 600, 3, 600 + transform.position.z + oppositeWolfDirection.z);
+                playerNaveMesh.updateDestination(newDest);
+                playerNaveMesh.updateSpeed(60);
             }
-                
+            catch
+            {
 
+            }
         }
         if (collision.gameObject.CompareTag("ShipTag") && !isPregnent && this.isFemale)
         {
