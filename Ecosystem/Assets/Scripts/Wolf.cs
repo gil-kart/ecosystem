@@ -11,18 +11,35 @@ public class Wolf : MonoBehaviour
     private Rigidbody rigidBodyComponent;
     private GameObject nextSheep;
     [SerializeField] private PlayerNavMesh playerNaveMesh;
+    [SerializeField] private HungerBar hungerBar;
     public int collisionCount = 0;
     public int trigerCount = 0;
+    [SerializeField] float maxHunger = 3;
+    private float curHunger;
+    private float timePassed = 0f;
+    private float timePassedSinceStart = 0f;
+
 
     void Start()
     {
         rigidBodyComponent = GetComponent<Rigidbody>();
+        curHunger = maxHunger;
+        hungerBar.updateHungerBar(maxHunger, curHunger);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        timePassed += Time.deltaTime;
+        timePassedSinceStart += Time.deltaTime;
+        if (timePassedSinceStart > 3)
+        {
+            curHunger = (float)(curHunger - 0.20);
+            hungerBar.updateHungerBar(maxHunger, curHunger);
+            timePassedSinceStart = 0;
+            if (curHunger <= 0)
+                Destroy(this.gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -45,6 +62,8 @@ public class Wolf : MonoBehaviour
             Debug.Log("destroying sheep! count: " + trigerCount);
             trigerCount++;
             Destroy(collision.gameObject);
+            curHunger = (float)(curHunger + 0.25);
+            hungerBar.updateHungerBar(maxHunger, curHunger);
             playerNaveMesh.updateDestination(new Vector3(Random.Range(460, 750), 3, Random.Range(430, 550)));
             playerNaveMesh.goingToFindFood = false;
         }
