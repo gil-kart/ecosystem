@@ -18,6 +18,7 @@ public class Wolf : MonoBehaviour
     private float curHunger;
     private float timePassed = 0f;
     private float timePassedSinceStart = 0f;
+    private bool isFull;
 
 
     void Start()
@@ -25,6 +26,7 @@ public class Wolf : MonoBehaviour
         rigidBodyComponent = GetComponent<Rigidbody>();
         curHunger = maxHunger;
         hungerBar.updateHungerBar(maxHunger, curHunger);
+        isFull = true;
     }
 
     // Update is called once per frame
@@ -34,12 +36,14 @@ public class Wolf : MonoBehaviour
         timePassedSinceStart += Time.deltaTime;
         if (timePassedSinceStart > 3)
         {
-            curHunger = (float)(curHunger - 0.20);
+            curHunger = (float)(curHunger - 0.10);
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
             if (curHunger <= 0)
                 Destroy(this.gameObject);
         }
+        _= curHunger >= maxHunger ? isFull = true : isFull = false;
+        
     }
 
     private void FixedUpdate()
@@ -57,18 +61,16 @@ public class Wolf : MonoBehaviour
             nextSheep = collision.gameObject;
             
         }
-        if (collision.gameObject.CompareTag("ShipTag") && collision.collider.GetType().Name == "BoxCollider")
+        if (collision.gameObject.CompareTag("ShipTag") && collision.collider.GetType().Name == "BoxCollider" && !isFull)
         {
             Debug.Log("destroying sheep! count: " + trigerCount);
             trigerCount++;
             Destroy(collision.gameObject);
-            curHunger = (float)(curHunger + 0.25);
+            curHunger = (float)(curHunger + 0.35);
             hungerBar.updateHungerBar(maxHunger, curHunger);
             playerNaveMesh.updateDestination(new Vector3(Random.Range(460, 750), 3, Random.Range(430, 550)));
             playerNaveMesh.goingToFindFood = false;
         }
-
-
     }
 }
 
