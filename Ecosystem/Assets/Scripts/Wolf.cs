@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Wolf : MonoBehaviour
 {
-    private bool upKeyWasPressed;
-    private bool downKeyWasPressed;
-    private bool leftKeyWasPressed;
-    private bool rightKeyWasPressed;
-    private Rigidbody rigidBodyComponent;
-    private GameObject nextSheep;
+  
     [SerializeField] private PlayerNavMesh playerNaveMesh;
     [SerializeField] private HungerBar hungerBar;
     public int collisionCount = 0;
@@ -23,7 +18,6 @@ public class Wolf : MonoBehaviour
 
     void Start()
     {
-        rigidBodyComponent = GetComponent<Rigidbody>();
         curHunger = maxHunger;
         hungerBar.updateHungerBar(maxHunger, curHunger);
         isFull = true;
@@ -36,7 +30,7 @@ public class Wolf : MonoBehaviour
         timePassedSinceStart += Time.deltaTime;
         if (timePassedSinceStart > 3)
         {
-            curHunger = (float)(curHunger - 0.10);
+            curHunger = (float)(curHunger - 0.15);
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
             if (curHunger <= 0)
@@ -58,12 +52,12 @@ public class Wolf : MonoBehaviour
             collisionCount++;
             playerNaveMesh.updateDestination(collision.gameObject.transform.position);
             playerNaveMesh.goingToFindFood = true;
-            nextSheep = collision.gameObject;
-            
         }
         if (collision.gameObject.CompareTag("ShipTag") && collision.collider.GetType().Name == "BoxCollider" && !isFull)
         {
             Debug.Log("destroying sheep! count: " + trigerCount);
+            Player other = collision.gameObject.GetComponent<Player>();
+            other.decNumOfSheep();
             trigerCount++;
             Destroy(collision.gameObject);
             curHunger = (float)(curHunger + 0.35);

@@ -7,6 +7,8 @@ using UnityEngine.UIElements.Experimental;
 
 public class Player : MonoBehaviour
 {
+    static public int MAXNUMBEROFSHEEP = 30;
+    static public int curNumerOfSheep = 11;
     public Player offSpring;
     private float timePassed = 0f;
     private float sicknessTimer = 0f;
@@ -22,7 +24,7 @@ public class Player : MonoBehaviour
     private float  matingDesire = 0f;
     private float  likelinessToGetSick = 0.05f;
     private int longevity = 120;
-    private float attractivnes = 1;
+    private float attractivnes;
     float amuneSystemProbs = 0.7f;
 
 
@@ -35,7 +37,6 @@ public class Player : MonoBehaviour
     public int numberOfPregnencys = 0;
     private bool isYoung = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         curHunger = maxHunger;
@@ -47,11 +48,10 @@ public class Player : MonoBehaviour
         likelinessToGetSick = Random.Range(0.03f, 0.07f);
         longevity = Random.Range(110, 140);
         attractivnes = Random.value;
-        matingDesire = Random.value;
+        matingDesire = Random.Range(0.0f, 0.2f);
         amuneSystemProbs = Random.Range(0.6f, 0.94f);
     }
 
-    // Update is called once per frame
     void Update()
     {
         timePassed += Time.deltaTime;
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
 
         if (timePassedSinceStart > 3)  // update hunger bar every three seconds
         {
-            curHunger = (float)(curHunger - 0.05);  
+            curHunger = (float)(curHunger - 0.15);  
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
         }
@@ -93,15 +93,18 @@ public class Player : MonoBehaviour
             playerNaveMesh.foodLocation = collision.gameObject.transform.position;
             playerNaveMesh.goingToFindFood = true;
 
-            if (Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position) < 7) // consume food if its in a smaller distance then 7
+            float eatingProb = Random.value;
+            
+            if (Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position) < 12 
+                && eatingProb > matingDesire) // consume food if its in a smaller distance then 7
             {
                 Flower flower = collision.gameObject.GetComponent<Flower>();
                 flower.setToDestroyed();
                 playerNaveMesh.goingToFindFood = false;
                 playerNaveMesh.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));  // set new random destination
-                curHunger += 0.4f;  // update hunger bar
+                curHunger += 0.3f;  // update hunger bar
                 hungerBar.updateHungerBar(maxHunger, curHunger);
-                spawner.flowerCount--;
+                spawner.flowerCount -= 1;
             }
         }
 
@@ -125,16 +128,19 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("ShipTag"))
         {
             Player other = collision.gameObject.GetComponent<Player>();
-            if (!isPregnent && isFemale && !other.isFemale && numberOfPregnencys < 4)
+            if (!isPregnent && isFemale && !other.isFemale && numberOfPregnencys < 4 && other.getAttractivnes() >= attractivnes - 0.12)
             {
                 numberOfPregnencys++;
                 isPregnent = true;
                 partner = other;
-                Invoke("spawn", 5.0f); // sheep will spawn offsprings in 5 seconds from now
+                Invoke("spawn", 8.0f); // sheep will spawn offsprings in 10 seconds from now
             }
         }
     } 
-
+    public void decNumOfSheep()
+    {
+        curNumerOfSheep--;
+    }
 
     public void returnToNormalSpeed()
     {
@@ -142,36 +148,41 @@ public class Player : MonoBehaviour
     }
     public void spawn()
     {
-        _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;  // 50% for the offspring to be male or female
-        Player offSpr = Instantiate(offSpring, this.gameObject.transform.position, Quaternion.identity);
-        offSpr.transform.localScale /= 2;
-        offSpr.isYoung = true;
-        offSpr.offSpring = offSpring;
-        offSpr.isPregnent = false;
-        offSpr.numberOfPregnencys = 0;
-        GameObject Parent = GameObject.FindGameObjectsWithTag("SheepsTag")[0];
-        offSpr.transform.SetParent(Parent.transform);
+        int numOfOffsprings = Random.Range(1, 4);
+        for(int i=0; i< numOfOffsprings && curNumerOfSheep < MAXNUMBEROFSHEEP; i++)
+        {
+            _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;  // 50% for the offspring to be male or female
+            Player offSpr = Instantiate(offSpring, this.gameObject.transform.position, Quaternion.identity);
+            offSpr.transform.localScale /= 2;
+            offSpr.isYoung = true;
+            offSpr.offSpring = offSpring;
+            offSpr.isPregnent = false;
+            offSpr.numberOfPregnencys = 0;
+            GameObject Parent = GameObject.FindGameObjectsWithTag("SheepsTag")[0];
+            offSpr.transform.SetParent(Parent.transform);
 
-        // some genes determined by using a weigthed average of both of the parants' genes
-        float Weight = Random.value;
-        offSpr.speed = (int)((1 - Weight) * partner.getSpeed() + Weight * this.getSpeed()); 
-        
-        Weight = Random.value;
-        offSpr.longevity = (int)((1 - Weight) * partner.getLongevity() + Weight * this.getLongevity() + Random.Range(-10, 10)); 
-        
-        Weight = Random.value;
-        offSpr.likelinessToGetSick = (1 - Weight) * partner.getSicknessLikelihood() + Weight * this.getSicknessLikelihood() + Random.Range(-0.1f, 0.1f);
+            // determine the offspring's genes by using a weighted average of parents' genes
+            float Weight = Random.value;
+            offSpr.speed = (int)((1 - Weight) * partner.getSpeed() + Weight * this.getSpeed());
 
-        Weight = Random.value;
-        offSpr.attractivnes = (1 - Weight) * partner.getAttractivnes() + Weight * this.getAttractivnes() + Random.Range(-0.1f, 0.1f);
+            Weight = Random.value;
+            offSpr.longevity = (int)((1 - Weight) * partner.getLongevity() + Weight * this.getLongevity() + Random.Range(-10, 10));
 
-        Weight = Random.value;
-        offSpr.matingDesire = (1 - Weight) * partner.getMatingDesire() + Weight * this.getMatingDesire() + Random.Range(-0.1f, 0.1f);
+            Weight = Random.value;
+            offSpr.likelinessToGetSick = (1 - Weight) * partner.getSicknessLikelihood() + Weight * this.getSicknessLikelihood() + Random.Range(-0.1f, 0.1f);
 
-        Weight = Random.value;
-        offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
+            Weight = Random.value;
+            offSpr.attractivnes = (1 - Weight) * partner.getAttractivnes() + Weight * this.getAttractivnes() + Random.Range(-0.1f, 0.1f);
 
-        isPregnent = false;
+            Weight = Random.value;
+            offSpr.matingDesire = (1 - Weight) * partner.getMatingDesire() + Weight * this.getMatingDesire() + Random.Range(-0.1f, 0.1f);
+
+            Weight = Random.value;
+            offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
+
+            isPregnent = false;
+            curNumerOfSheep++;
+        }
     }
 
     private float getAmuneSystemProbs()
@@ -201,7 +212,7 @@ public class Player : MonoBehaviour
                 healthTimer = 0;
 
                 // slow sheep's speed and change sheep's color to a "sick" color
-                playerNaveMesh.updateSpeed(4);
+                playerNaveMesh.updateSpeed((int)(speed / 4));
                 GetComponent<Renderer>().material.color = Color.green; 
             }
             sicknessTimer = 0;
