@@ -7,7 +7,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class Player : MonoBehaviour
 {
-    static public int MAXNUMBEROFSHEEP = 30;
+    static public int MAXNUMBEROFSHEEP = 28;
     static public int curNumerOfSheep = 11;
     public Player offSpring;
     private float timePassed = 0f;
@@ -25,7 +25,8 @@ public class Player : MonoBehaviour
     private float  likelinessToGetSick = 0.05f;
     private int longevity = 120;
     private float attractivnes;
-    float amuneSystemProbs = 0.7f;
+    private float amuneSystemProbs = 0.7f;
+
 
 
     Color healthyColor;
@@ -39,17 +40,19 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        timePassed = 0f;
         curHunger = maxHunger;
         hungerBar.updateHungerBar(maxHunger, curHunger);
         healthyColor = GetComponent<Renderer>().material.color;
-        
+
+        numberOfPregnencys = 0;
         speed = Random.Range(11, 18);
         playerNaveMesh.updateSpeed(speed);
-        likelinessToGetSick = Random.Range(0.03f, 0.07f);
-        longevity = Random.Range(110, 140);
+        likelinessToGetSick = Random.Range(0.001f, 0.04f);
+        longevity = Random.Range(140, 170);
         attractivnes = Random.value;
         matingDesire = Random.Range(0.0f, 0.2f);
-        amuneSystemProbs = Random.Range(0.6f, 0.94f);
+        amuneSystemProbs = Random.Range(0.75f, 0.94f);
     }
 
     void Update()
@@ -60,12 +63,12 @@ public class Player : MonoBehaviour
 
         if (timePassedSinceStart > 3)  // update hunger bar every three seconds
         {
-            curHunger = (float)(curHunger - 0.15);  
+            curHunger = (float)(curHunger - 0.08);  
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
         }
         
-        if (timePassed > 30 && isYoung)  // if the sheep is older then 30 seconds, it becomes an adult sheep
+        if (timePassed > 13 && isYoung)  // if the sheep is older then 30 seconds, it becomes an adult sheep
         {
             isYoung = false;
             transform.localScale *= 2;
@@ -73,6 +76,7 @@ public class Player : MonoBehaviour
 
         if (timePassed > longevity || curHunger <= 0) // if the sheep is  older then its longevity or if sheep starves, it dies, it dies
         {
+            decNumOfSheep();
             Destroy(this.gameObject);
         }
 
@@ -95,13 +99,13 @@ public class Player : MonoBehaviour
 
             float eatingProb = Random.value;
             
-            if (Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position) < 12 
+            if (Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position) < 14 
                 && eatingProb > matingDesire) // consume food if its in a smaller distance then 7
             {
                 Flower flower = collision.gameObject.GetComponent<Flower>();
                 flower.setToDestroyed();
                 playerNaveMesh.goingToFindFood = false;
-                playerNaveMesh.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));  // set new random destination
+                playerNaveMesh.destination = new Vector3(Random.Range(460, 650), 3, Random.Range(430, 550));  // set new random destination
                 curHunger += 0.3f;  // update hunger bar
                 hungerBar.updateHungerBar(maxHunger, curHunger);
                 spawner.flowerCount -= 1;
@@ -112,7 +116,7 @@ public class Player : MonoBehaviour
         {
             try
             {
-                Vector3 oppositeWolfDirection = transform.position - collision.gameObject.transform.position;
+                Vector3 oppositeWolfDirection = collision.gameObject.transform.position;
                 playerNaveMesh.goingToFindFood = false;
                 Vector3 newDest = new Vector3(collision.gameObject.transform.position.x + oppositeWolfDirection.x * 300, 3, 300 * collision.gameObject.transform.position.z + oppositeWolfDirection.z);
                 playerNaveMesh.updateDestination(newDest);
@@ -128,12 +132,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("ShipTag"))
         {
             Player other = collision.gameObject.GetComponent<Player>();
-            if (!isPregnent && isFemale && !other.isFemale && numberOfPregnencys < 4 && other.getAttractivnes() >= attractivnes - 0.12)
+            if (!isYoung && !isPregnent && isFemale && !other.isFemale && numberOfPregnencys < 4 && other.getAttractivnes() >= attractivnes - 0.12)
             {
-                numberOfPregnencys++;
+               // numberOfPregnencys++;
                 isPregnent = true;
                 partner = other;
-                Invoke("spawn", 8.0f); // sheep will spawn offsprings in 10 seconds from now
+                Invoke("spawn", 4.0f); // sheep will spawn offsprings in 10 seconds from now
             }
         }
     } 
@@ -155,34 +159,39 @@ public class Player : MonoBehaviour
             Player offSpr = Instantiate(offSpring, this.gameObject.transform.position, Quaternion.identity);
             offSpr.transform.localScale /= 2;
             offSpr.isYoung = true;
-            offSpr.offSpring = offSpring;
             offSpr.isPregnent = false;
             offSpr.numberOfPregnencys = 0;
             GameObject Parent = GameObject.FindGameObjectsWithTag("SheepsTag")[0];
             offSpr.transform.SetParent(Parent.transform);
 
-            // determine the offspring's genes by using a weighted average of parents' genes
-            float Weight = Random.value;
-            offSpr.speed = (int)((1 - Weight) * partner.getSpeed() + Weight * this.getSpeed());
-
-            Weight = Random.value;
-            offSpr.longevity = (int)((1 - Weight) * partner.getLongevity() + Weight * this.getLongevity() + Random.Range(-10, 10));
-
-            Weight = Random.value;
-            offSpr.likelinessToGetSick = (1 - Weight) * partner.getSicknessLikelihood() + Weight * this.getSicknessLikelihood() + Random.Range(-0.1f, 0.1f);
-
-            Weight = Random.value;
-            offSpr.attractivnes = (1 - Weight) * partner.getAttractivnes() + Weight * this.getAttractivnes() + Random.Range(-0.1f, 0.1f);
-
-            Weight = Random.value;
-            offSpr.matingDesire = (1 - Weight) * partner.getMatingDesire() + Weight * this.getMatingDesire() + Random.Range(-0.1f, 0.1f);
-
-            Weight = Random.value;
-            offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
-
+            setOffspringGenes(offSpr);
+            
             isPregnent = false;
             curNumerOfSheep++;
         }
+    }
+
+    private void setOffspringGenes(Player offSpr)
+    {
+        // determine the offspring's genes by using a weighted average of parents' genes
+        float Weight = Random.value;
+        offSpr.speed = (int)((1 - Weight) * partner.getSpeed() + Weight * this.getSpeed());
+
+        Weight = Random.value;
+        offSpr.longevity = (int)((1 - Weight) * partner.getLongevity() + Weight * this.getLongevity() + Random.Range(-10, 10));
+
+        Weight = Random.value;
+        offSpr.likelinessToGetSick = (1 - Weight) * partner.getSicknessLikelihood() + Weight * this.getSicknessLikelihood() + Random.Range(-0.1f, 0.1f);
+
+        Weight = Random.value;
+        offSpr.attractivnes = (1 - Weight) * partner.getAttractivnes() + Weight * this.getAttractivnes() + Random.Range(-0.1f, 0.1f);
+
+        Weight = Random.value;
+        offSpr.matingDesire = (1 - Weight) * partner.getMatingDesire() + Weight * this.getMatingDesire() + Random.Range(-0.1f, 0.1f);
+
+        Weight = Random.value;
+        offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
+
     }
 
     private float getAmuneSystemProbs()
@@ -228,6 +237,7 @@ public class Player : MonoBehaviour
             float chanceToDie = Random.value;
             if (chanceToDie > amuneSystemProbs)
             {
+                decNumOfSheep();
                 Destroy(gameObject);
                 return;
             }

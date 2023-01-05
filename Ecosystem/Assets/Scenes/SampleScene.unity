@@ -544,7 +544,7 @@ GameObject:
   - component: {fileID: 114528367}
   - component: {fileID: 114528369}
   - component: {fileID: 114528368}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,6 +1007,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: wolf
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618109427828143281, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7618109427828143281, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_TagString
       value: WolfTag
@@ -1082,7 +1090,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 140192202852913536, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1260.9
+      value: 1254.8
       objectReference: {fileID: 0}
     - target: {fileID: 140192202852913536, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1090,7 +1098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 140192202852913536, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 832.7
+      value: 916.4
       objectReference: {fileID: 0}
     - target: {fileID: 140192202852913536, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1115,6 +1123,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_Name
       value: wolf (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618109427828143281, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7618109427828143281, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_TagString
@@ -1741,7 +1757,7 @@ GameObject:
   - component: {fileID: 384291302}
   - component: {fileID: 384291301}
   - component: {fileID: 384291300}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: HungerBar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1762,7 +1778,7 @@ RectTransform:
   m_Children:
   - {fileID: 1263452407}
   m_Father: {fileID: 651374086}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 3.319, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3081,6 +3097,9 @@ MonoBehaviour:
   collisionCount: 0
   trigerCount: 0
   maxHunger: 3
+  offSpring: {fileID: 651374091}
+  isFemale: 1
+  isPregnent: 0
 --- !u!195 &651374092
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3092,7 +3111,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2.4158027
   m_Speed: 50
-  m_Acceleration: 25
+  m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 5
@@ -3447,7 +3466,7 @@ GameObject:
   - component: {fileID: 731060151}
   - component: {fileID: 731060150}
   - component: {fileID: 731060149}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: HungerBar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3576,9 +3595,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 734970004}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wolves
-  m_TagString: Untagged
+  m_TagString: WolvesTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3591,7 +3610,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734970003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.12689, y: 4.76, z: 93.68326}
+  m_LocalPosition: {x: -40.9, y: 4.76, z: 93.68326}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3839,7 +3858,7 @@ GameObject:
   - component: {fileID: 757111892}
   - component: {fileID: 757111894}
   - component: {fileID: 757111893}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: forground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5186,7 +5205,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -5251,14 +5270,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.20550609, y: 0.00521487, z: 0.01668761, w: 0.9784997}
-  m_LocalPosition: {x: -0.7249461, y: 4.3999996, z: -7.0499887}
-  m_LocalScale: {x: 0.56923264, y: 0.47790498, z: 0.47556153}
+  m_LocalRotation: {x: 0.36088902, y: -0, z: -0, w: 0.9326088}
+  m_LocalPosition: {x: 562.4, y: 83.6, z: 359.6}
+  m_LocalScale: {x: 1.1384655, y: 0.95581, z: 0.95112336}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 651374086}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 23.703, y: 5.917, z: 2.178}
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 42.31, y: 0, z: 0}
 --- !u!1 &1007498156
 GameObject:
   m_ObjectHideFlags: 0
@@ -5350,7 +5369,7 @@ GameObject:
   - component: {fileID: 1012999080}
   - component: {fileID: 1012999079}
   - component: {fileID: 1012999078}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: HungerBar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5577,6 +5596,9 @@ MonoBehaviour:
   collisionCount: 0
   trigerCount: 0
   maxHunger: 3
+  offSpring: {fileID: 1046263410}
+  isFemale: 1
+  isPregnent: 0
 --- !u!195 &1046263411
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5588,7 +5610,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2.4158027
   m_Speed: 50
-  m_Acceleration: 25
+  m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 5
@@ -5670,7 +5692,7 @@ GameObject:
   - component: {fileID: 1074731987}
   - component: {fileID: 1074731989}
   - component: {fileID: 1074731988}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6011,7 +6033,7 @@ GameObject:
   - component: {fileID: 1106645163}
   - component: {fileID: 1106645165}
   - component: {fileID: 1106645164}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: forground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6710,7 +6732,7 @@ GameObject:
   - component: {fileID: 1263452407}
   - component: {fileID: 1263452409}
   - component: {fileID: 1263452408}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7536,6 +7558,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_Name
       value: wolf (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618109427828143281, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7618109427828143281, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_TagString
@@ -8715,7 +8745,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2.4158027
   m_Speed: 50
-  m_Acceleration: 25
+  m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 5
@@ -8743,6 +8773,9 @@ MonoBehaviour:
   collisionCount: 0
   trigerCount: 0
   maxHunger: 3
+  offSpring: {fileID: 1746264990}
+  isFemale: 0
+  isPregnent: 0
 --- !u!65 &1746264991
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9204,7 +9237,7 @@ GameObject:
   - component: {fileID: 1853349706}
   - component: {fileID: 1853349708}
   - component: {fileID: 1853349707}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: forground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

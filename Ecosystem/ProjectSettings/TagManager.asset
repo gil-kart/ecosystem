@@ -9,6 +9,7 @@ TagManager:
   - WolfTag
   - SheepsTag
   - FlowersTag
+  - WolvesTag
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - Flower
   - Ship
-  - 
+  - Wolves
   - 
   - 
   - 

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Flower : MonoBehaviour
 {
+    static public int flowerCount = 0;
     private bool isDestroyed = false;
     private float timePassed = 0f;
     void Start()
@@ -24,6 +25,7 @@ public class Flower : MonoBehaviour
 
             if (transform.localScale.x < 0f)
             {
+                flowerCount--;
                 Destroy(gameObject);    
             }
 
@@ -40,5 +42,14 @@ public class Flower : MonoBehaviour
     public static explicit operator Flower(GameObject v)
     {
         throw new NotImplementedException();
+    }
+
+    public void incFlowerCount()
+    {
+        flowerCount++;  
+    }
+    public int getFlowerCount()
+    {
+        return flowerCount;
     }
 }
