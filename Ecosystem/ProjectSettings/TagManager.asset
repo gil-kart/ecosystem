@@ -10,6 +10,8 @@ TagManager:
   - SheepsTag
   - FlowersTag
   - WolvesTag
+  - WolfNumber
+  - SheepNumber
   layers:
   - Default
   - TransparentFX
