@@ -39,6 +39,7 @@ public class RandomObjectSpawner : MonoBehaviour
             curWolf.isPregnent = false;
             curWolf.transform.localScale = curWolf.transform.localScale / 2;
         }
+        Wolf.curNumerOfWolves = wolfNumber;
     }
 
     public void addSheepToScene(int sheepNumber)
@@ -59,6 +60,6 @@ public class RandomObjectSpawner : MonoBehaviour
             GameObject Parent = GameObject.FindGameObjectsWithTag("SheepsTag")[0];
             curSheep.transform.SetParent(Parent.transform);
         }
-
+        Player.curNumerOfSheep = sheepNumber;
     }
 }

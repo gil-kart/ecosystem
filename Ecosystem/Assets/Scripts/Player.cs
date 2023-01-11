@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements.Experimental;
@@ -192,6 +193,7 @@ public class Player : MonoBehaviour
         Weight = Random.value;
         offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
 
+        offSpr.curHunger = (float)(0.5 * partner.curHunger + 0.5 * this.curHunger);
     }
 
     private float getAmuneSystemProbs()
