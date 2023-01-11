@@ -921,7 +921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 282.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1038,7 +1038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.9
+      value: 301.19998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1327,6 +1327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myObject: {fileID: 462853323}
+  wolfPrefab: {fileID: 651374091}
+  sheepPrefab: {fileID: 1155955341}
   flowerCount: 0
 --- !u!4 &277291747
 Transform:
@@ -7487,7 +7489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 282.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b29956a157c297469c0e3999d6e2b03, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8191,7 +8193,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588703439}
   m_LocalRotation: {x: -0, y: 0.9999848, z: -0, w: 0.005527834}
-  m_LocalPosition: {x: 76.1, y: 2.01, z: 21.2}
+  m_LocalPosition: {x: 250.2, y: 2.01, z: 23.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

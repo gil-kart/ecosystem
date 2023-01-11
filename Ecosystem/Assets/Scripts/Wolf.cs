@@ -42,6 +42,7 @@ public class Wolf : MonoBehaviour
         curHunger = maxHunger;
         hungerBar.updateHungerBar(maxHunger, curHunger);
         isFull = true;
+        isYoung = false;
         healthyColor = GetComponent<Renderer>().material.color;
     }
 

@@ -10,10 +10,19 @@ public class StartMenu : MonoBehaviour
     public int wolfCount = 3;
     public string selectedScene = "Desert";
     public Scene scene;
-    public void startEcosystem()
+    public async void startEcosystem()
     {
         SceneManager.LoadScene("SampleScene");
-        
+        scene = SceneManager.GetSceneByName("SampleScene");
+        int saftyCount = 0;
+        while (!scene.isLoaded && saftyCount < 50000)
+        {
+            await Task.Delay(5);
+            saftyCount++;
+        }
+        FindObjectOfType<RandomObjectSpawner>().addSheepToScene(sheepCount);
+        FindObjectOfType<RandomObjectSpawner>().addWolvesToScene(wolfCount);
+
     }
 
     public async void goToSettings()
@@ -21,11 +30,11 @@ public class StartMenu : MonoBehaviour
         
         SceneManager.LoadSceneAsync("SettingMenu");
         scene = SceneManager.GetSceneByName("SettingMenu");
-        int count = 0;
-        while (!scene.isLoaded && count < 50000)
+        int saftyCount = 0;
+        while (!scene.isLoaded && saftyCount < 50000)
         {
             await Task.Delay(5);
-            count++;
+            saftyCount++;
         }
         FindObjectOfType<SettingsMenu>().setData(sheepCount, wolfCount, selectedScene);
 

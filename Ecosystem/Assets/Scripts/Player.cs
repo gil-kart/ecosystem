@@ -249,7 +249,8 @@ public class Player : MonoBehaviour
         }
     }
 
-
+    public void setIsFemale(bool isFemaleVal) { isFemale = isFemaleVal; }
+    public void setIsYoung(bool isYoungVal) { isYoung = isYoungVal; }
     // -- getters --
     public float getAttractivnes()
     {
