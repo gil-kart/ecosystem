@@ -65,7 +65,7 @@ public class Wolf : MonoBehaviour
         }
         _= curHunger >= maxHunger ? isFull = true : isFull = false;
 
-        if (timePassed > 35 && isYoung)  // if the wolf is older then 30 seconds, it becomes an adult 
+        if (timePassed > 35 && isYoung)  // if the wolf is older then 35 seconds, it becomes an adult 
         {
             isYoung = false;
             transform.localScale *= 2;
@@ -105,7 +105,6 @@ public class Wolf : MonoBehaviour
             Wolf other = collision.gameObject.GetComponent<Wolf>();
             if (!isYoung && !isPregnent && isFemale && !other.isFemale && other.getAttractivnes() >= attractivnes - 0.12)
             {
-                // numberOfPregnencys++;
                 isPregnent = true;
                 partner = other;
                 Invoke("spawn", 5.0f); // female wolf will spawn offsprings in 10 seconds from now
@@ -115,7 +114,7 @@ public class Wolf : MonoBehaviour
 
     public void spawn()
     {
-        int numOfOffsprings = Random.Range(1, 2);
+        int numOfOffsprings = Random.Range(1,   2);
         for (int i = 0; i < numOfOffsprings && curNumerOfWolves < MAXNUMBEROFWOLVES; i++)
         {
             _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;  // 50% for the offspring to be male or female
