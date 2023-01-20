@@ -89,7 +89,6 @@ public class Wolf : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("ShipTag") && collision.collider.GetType().Name == "BoxCollider" && !isFull)
         {
-            Debug.Log("destroying sheep! count: " + trigerCount);
             Player other = collision.gameObject.GetComponent<Player>();
             other.decNumOfSheep();
             trigerCount++;

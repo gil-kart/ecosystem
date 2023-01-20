@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
     {
         // determine the offspring's genes by using a weighted average of parents' genes
         float Weight = Random.value;
-        offSpr.speed = (int)((1 - Weight) * partner.getSpeed() + Weight * this.getSpeed());
+        offSpr.speed = (int)((1 - Weight) * partner.getSpeed() + Weight * this.getSpeed() + Random.Range(0, 10));
 
         Weight = Random.value;
         offSpr.longevity = (int)((1 - Weight) * partner.getLongevity() + Weight * this.getLongevity() + Random.Range(-10, 10));
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
         offSpr.curHunger = (float)(0.5 * partner.curHunger + 0.5 * this.curHunger);
     }
 
-    private float getAmuneSystemProbs()
+    public float getAmuneSystemProbs()
     {
         return amuneSystemProbs;
     }

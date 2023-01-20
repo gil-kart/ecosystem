@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+using TMPro;
 
 public class Graph : MonoBehaviour
 {
@@ -10,13 +14,39 @@ public class Graph : MonoBehaviour
     private RectTransform graphContainer;
     private RectTransform labelTemplateX;
     private RectTransform labelTemplateY;
+    static List<List<double>> data;
+    static int curListIndex;
+    public TextMeshProUGUI Header;
+
+    Dictionary<int, string> keyValuePairs = new Dictionary<int, string>
+    {
+        { 0, "Sheep Average Speed" },
+        { 1, "Sheep Average Likeliness To Get Sick" },
+        { 2, "Sheep Average Longevity" },
+        { 3, "Sheep Average Attractivnes" },
+        { 4, "Sheep Average Mating Desire" },
+        { 5, "Sheep Average Amune System Strength" },
+
+    };
     private void Awake()
     {
         graphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
         labelTemplateX = graphContainer.Find("LabelTemplateX").GetComponent<RectTransform>();
         labelTemplateY = graphContainer.Find("LabelTemplateY").GetComponent<RectTransform>();
-        //CreateCircle(new Vector2(200, 200));
-        List<int> values = new List<int>() { 13, 4, 55, 42, 88, 4, 156, 53, 157, 22, 88, 300, 321, 2, 55, 0, 12};
+        SetData(data, curListIndex);
+    }
+
+    public void SetData(List<List<double>> dataList, int index)
+    {
+        curListIndex = index;
+        data = dataList;
+        Header.SetText(keyValuePairs[curListIndex]);
+        ShowData(data[curListIndex]);
+    }
+
+
+    public void ShowData(List<double> values)
+    {
         ShowGraph(values);
     }
 
@@ -33,17 +63,19 @@ public class Graph : MonoBehaviour
         return circle;
     }
 
-    private void ShowGraph(List<int> valueList)
+    private void ShowGraph(List<double> valueList)
     {
         float graphHeight = graphContainer.sizeDelta.y;
-        float yMax = 100f;
+        float graphWidth = 860f;
+        float yMax = (float)valueList.Max();
         float xSize = 50f;
+        int seperatorCount = 10;
         GameObject lastCircle = null;
         for(int i = 0; i < valueList.Count; i++)
         {
             float xPosition = i * xSize + 35;
-            float yPosition = (valueList[i] / yMax) * graphHeight + 45;
-            GameObject circle = CreateCircle(new Vector2(xPosition, yPosition));
+            double yPosition = (valueList[i] / yMax) * graphHeight + 45;
+            GameObject circle = CreateCircle(new Vector2(35 + i * graphWidth / valueList.Count, (float)yPosition));
             if(lastCircle != null)
             {
                 CreateDotConnection(lastCircle.GetComponent<RectTransform>().anchoredPosition, circle.GetComponent<RectTransform>().anchoredPosition);
@@ -54,11 +86,11 @@ public class Graph : MonoBehaviour
             RectTransform labelX = Instantiate(labelTemplateX);
             labelX.SetParent(graphContainer, false);
             labelX.gameObject.SetActive(true);
-            labelX.anchoredPosition = new Vector2(xPosition + 11, 20f);
+            labelX.anchoredPosition = new Vector2(45 + i * graphWidth / valueList.Count, 20f);
             labelX.GetComponent<Text>().text = i.ToString();
         }
 
-        int seperatorCount = 10;
+        
         graphHeight = 410;
         for (int i=0; i<=seperatorCount; i++)
         {
@@ -92,6 +124,30 @@ public class Graph : MonoBehaviour
         float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         if (n < 0) n += 360;
         return n;
+    }
+
+    public async void ShowNextStat()
+    {
+        curListIndex++;
+        if (curListIndex % data.Count == 0)
+            curListIndex = 0;
+
+        SceneManager.LoadScene("Statistics");
+        Scene scene = SceneManager.GetSceneByName("Statistics");
+        int saftyCount = 0;
+        while (!scene.isLoaded && saftyCount < 50000)
+        {
+            await Task.Delay(5);
+            saftyCount++;
+        }
+
+        FindObjectOfType<Graph>().SetData(data, curListIndex);
+    }
+
+    public void BackToEcosystem()
+    {
+        data = null;
+        SceneManager.LoadScene("startMenu");
     }
 
 }
