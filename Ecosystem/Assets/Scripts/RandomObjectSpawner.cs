@@ -14,7 +14,7 @@ public class RandomObjectSpawner : MonoBehaviour
     {
 
         timePassed += Time.deltaTime;
-        if (((timePassed > 1f) || Input.GetKeyDown(KeyCode.W)) && flowerCount < 24) 
+        if (((timePassed > 1f) || Input.GetKeyDown(KeyCode.W)) && flowerCount < 100) 
         {
             Vector3 randomSpawnPosition = new Vector3(Random.Range(460, 650), 3, Random.Range(430, 550));
             GameObject flowerOffSpr = Instantiate(myObject, randomSpawnPosition, Quaternion.AngleAxis(-90, Vector3.right));
