@@ -87,6 +87,7 @@ public class Wolf : MonoBehaviour
             collisionCount++;
             playerNaveMesh.updateDestination(collision.gameObject.transform.position);
             playerNaveMesh.goingToFindFood = true;
+            playerNaveMesh.updateSpeed(speed*3);
         }
         if (collision.gameObject.CompareTag("ShipTag") && collision.collider.GetType().Name == "BoxCollider" && !isFull)
         {
@@ -98,6 +99,7 @@ public class Wolf : MonoBehaviour
             hungerBar.updateHungerBar(maxHunger, curHunger);
             playerNaveMesh.updateDestination(new Vector3(Random.Range(460, 750), 3, Random.Range(430, 550)));
             playerNaveMesh.goingToFindFood = false;
+          //  playerNaveMesh.updateSpeed(speed / 3);
         }
 
         if (collision.gameObject.CompareTag("WolfTag") && collision.collider.GetType().Name == "BoxCollider" && isFemale)
