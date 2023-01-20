@@ -14,8 +14,8 @@ public class Graph : MonoBehaviour
     private RectTransform graphContainer;
     private RectTransform labelTemplateX;
     private RectTransform labelTemplateY;
-    static List<List<double>> data;
-    static int curListIndex;
+    static List<List<double>> data = new List<List<double>> { new List<double> { 0 } };
+    static int curListIndex = 0;
     public TextMeshProUGUI Header;
 
     Dictionary<int, string> keyValuePairs = new Dictionary<int, string>
@@ -26,7 +26,12 @@ public class Graph : MonoBehaviour
         { 3, "Sheep Average Attractivnes" },
         { 4, "Sheep Average Mating Desire" },
         { 5, "Sheep Average Amune System Strength" },
-
+        { 6, "Wolf Average Speed" },
+        { 7, "Wolf Average Likeliness To Get Sick" },
+        { 8, "Wolf Average Longevity" },
+        { 9, "Wolf Average Attractivnes" },
+        { 10, "Wolf Average Mating Desire" },
+        { 11, "Wolf Average Amune System Strength" },
     };
     private void Awake()
     {
@@ -75,7 +80,7 @@ public class Graph : MonoBehaviour
         {
             float xPosition = i * xSize + 35;
             double yPosition = (valueList[i] / yMax) * graphHeight + 45;
-            GameObject circle = CreateCircle(new Vector2(35 + i * graphWidth / valueList.Count, (float)yPosition));
+            GameObject circle = CreateCircle(new Vector2(60 + i * graphWidth / valueList.Count, (float)yPosition));
             if(lastCircle != null)
             {
                 CreateDotConnection(lastCircle.GetComponent<RectTransform>().anchoredPosition, circle.GetComponent<RectTransform>().anchoredPosition);
@@ -83,11 +88,11 @@ public class Graph : MonoBehaviour
             lastCircle = circle;
 
 
-            RectTransform labelX = Instantiate(labelTemplateX);
-            labelX.SetParent(graphContainer, false);
-            labelX.gameObject.SetActive(true);
-            labelX.anchoredPosition = new Vector2(45 + i * graphWidth / valueList.Count, 20f);
-            labelX.GetComponent<Text>().text = i.ToString();
+         //   RectTransform labelX = Instantiate(labelTemplateX);
+         //   labelX.SetParent(graphContainer, false);
+         //   labelX.gameObject.SetActive(true);
+         //   labelX.anchoredPosition = new Vector2(70 + i * graphWidth / valueList.Count, 20f);
+         //   labelX.GetComponent<Text>().text = i.ToString();
         }
 
         
@@ -99,7 +104,7 @@ public class Graph : MonoBehaviour
             labelY.gameObject.SetActive(true);
             float normalizedValue = i * 1f / seperatorCount;
             labelY.anchoredPosition = new Vector2(20f, 40 + normalizedValue * graphHeight);
-            labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedValue * yMax).ToString();
+            labelY.GetComponent<Text>().text = Math.Round(normalizedValue * yMax, 3).ToString();
         }
     }
 

@@ -30,7 +30,7 @@ public class Wolf : MonoBehaviour
     private Wolf partner;
     private bool isYoung = false;
     private int speed = 15;
-    private float matingDesire = 0f;
+    private double matingDesire = 0f;
     private float likelinessToGetSick = 0.05f;
     private int longevity = 120;
     private float attractivnes;
@@ -42,7 +42,8 @@ public class Wolf : MonoBehaviour
         curHunger = maxHunger;
         hungerBar.updateHungerBar(maxHunger, curHunger);
         isFull = true;
-        isYoung = false;
+        attractivnes = Random.value;
+        matingDesire = Random.Range(0.0f, 0.2f);
         healthyColor = GetComponent<Renderer>().material.color;
     }
 
@@ -102,7 +103,7 @@ public class Wolf : MonoBehaviour
         if (collision.gameObject.CompareTag("WolfTag") && collision.collider.GetType().Name == "BoxCollider" && isFemale)
         {
             Wolf other = collision.gameObject.GetComponent<Wolf>();
-            if (!isYoung && !isPregnent && isFemale && !other.isFemale && other.getAttractivnes() >= attractivnes - 0.12)
+            if (!isYoung && !isPregnent && isFemale && !other.isFemale && !other.isYoung && other.getAttractivnes() >= attractivnes - 0.12)
             {
                 isPregnent = true;
                 partner = other;
@@ -114,7 +115,7 @@ public class Wolf : MonoBehaviour
     public void spawn()
     {
         int numOfOffsprings = Random.Range(1,   2);
-        for (int i = 0; i < numOfOffsprings && curNumerOfWolves < MAXNUMBEROFWOLVES; i++)
+        for (int i = 0; i < numOfOffsprings && curNumerOfWolves < MAXNUMBEROFWOLVES && !isYoung; i++)
         {
             _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;  // 50% for the offspring to be male or female
             Wolf offSpr = Instantiate(offSpring, this.gameObject.transform.position, Quaternion.identity);
@@ -122,15 +123,13 @@ public class Wolf : MonoBehaviour
             GameObject Parent = GameObject.FindGameObjectsWithTag("WolvesTag")[0];
             offSpr.transform.SetParent(Parent.transform);
             offSpr.isPregnent = false;
-            offSpr.transform.localScale = offSpr.transform.localScale / 4;
+            offSpr.transform.localScale = transform.localScale / 2;
             offSpr.speed /= 2;
 
             setOffspringsGenes(offSpr);
             curNumerOfWolves++;
             isPregnent = false;
-
         }
-  
     }
 
     private void setOffspringsGenes(Wolf offSpr)
@@ -148,7 +147,7 @@ public class Wolf : MonoBehaviour
         offSpr.attractivnes = (1 - Weight) * partner.getAttractivnes() + Weight * this.getAttractivnes() + Random.Range(-0.1f, 0.1f);
 
         Weight = Random.value;
-        offSpr.matingDesire = (1 - Weight) * partner.getMatingDesire() + Weight * this.getMatingDesire() + Random.Range(-0.1f, 0.1f);
+        offSpr.matingDesire = (1 - Weight) *  partner.getMatingDesire() + Weight * this.getMatingDesire() + Random.Range(-0.1f, 0.1f);
 
         Weight = Random.value;
         offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
@@ -199,83 +198,35 @@ public class Wolf : MonoBehaviour
         }
     }
 
-    private float getAmuneSystemProbs()
+    public float getAmuneSystemProbs()
     {
         return amuneSystemProbs;
     }
 
-    private float getMatingDesire()
+    public double getMatingDesire()
     {
         return matingDesire;
     }
 
-    private float getSicknessLikelihood()
+    public float getSicknessLikelihood()
     {
         return likelinessToGetSick;
     }
 
-    private float getLongevity()
+    public float getLongevity()
     {
         return longevity;
     }
 
-    private float getSpeed()
+    public float getSpeed()
     {
         return speed;
     }
 
-    private float getAttractivnes()
+    public float getAttractivnes()
     {
         return attractivnes;
     }
 }
 
 
-
-
-/*  // code user interface 
-   /*  if (Input.GetKeyDown(KeyCode.UpArrow))
-          {
-              upKeyWasPressed = true;
-          }
-          if (Input.GetKeyDown(KeyCode.DownArrow))
-          {
-              downKeyWasPressed = true;
-          }
-          if (Input.GetKeyDown(KeyCode.LeftArrow))
-          {
-              leftKeyWasPressed = true;
-          }
-          if (Input.GetKeyDown(KeyCode.RightArrow))
-          {
-              rightKeyWasPressed = true;
-          }
-if (Input.GetKeyDown(KeyCode.Space))
-        {
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y + 5, rigidBodyComponent.velocity.z);
-        }
-        if (upKeyWasPressed)
-        {
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x + 5, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
-            upKeyWasPressed = false;
-        }
-        if (downKeyWasPressed)
-        {
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x - 5, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z);
-            downKeyWasPressed = false;
-        }
-        if (leftKeyWasPressed)
-        {
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z + 5);
-            leftKeyWasPressed = false;
-        }
-        if (rightKeyWasPressed)
-        {
-            rigidBodyComponent.velocity = new Vector3(rigidBodyComponent.velocity.x, rigidBodyComponent.velocity.y, rigidBodyComponent.velocity.z - 5);
-            rightKeyWasPressed = false;
-        }
-
-        if ((Vector3.Distance(this.gameObject.transform.position, nextSheep.transform.position)) < 4)
-        {
-            playerNaveMesh.agent.destination = new Vector3(Random.Range(460, 750), 3, Random.Range(400, 640));
-        }*/
