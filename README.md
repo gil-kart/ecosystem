@@ -58,6 +58,11 @@ Each animal (wolf and sheep) has the next traits:
 
 ![attractivnessCode](https://user-images.githubusercontent.com/73134488/213861456-e37116fe-ef5d-450b-a861-0ff5f2bf9ad8.jpg)
 
+when a female animal gives birth to an off spring, its genes are created by using a weighted average betweem both of its parants genes:
+
+<img width="569" alt="image" src="https://user-images.githubusercontent.com/73134488/213874516-84fd03fd-c91c-4333-b6b2-9d15c85eb4e7.png">
+
+
 After starting the simulation, the user can decide to stop the simulation and observe some statistics about the last simulation run.
 
 the statistics shows 2d graphs that contains the average amount of each trait as a function of time since the beginning of the simulation
