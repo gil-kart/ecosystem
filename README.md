@@ -30,7 +30,7 @@ In the setting menu, the user can choose the number of wolves and sheep that wil
 
 ![settings](https://user-images.githubusercontent.com/73134488/213860527-c8f10104-8372-45bb-9618-bbb879cda3bb.jpg)
 
-after the simulation is starting, the wolves and sheep will wander around the scene looking for food:
+after the simulation is starting, the wolves and sheep will wander around the scene looking for food, that will randomly appear at the scene every two seconds:
 
 [Untitled video - Screen Recording - 1_21_2023, 11_22_04 AM.webm](https://user-images.githubusercontent.com/73134488/213860728-694a697d-b82f-474a-9fcf-49de48cc845e.webm)
 
