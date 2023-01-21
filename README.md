@@ -1,13 +1,14 @@
+
 # ecosystem
 
-This is a computer graphics university project I did. it is an implementation of an echosystem.
+This is a computer graphics university project I did. it is an implementation of an ecosystem.
 
 The idea for the project came from this youtube video:
 
 https://www.youtube.com/watch?v=r_It_X7v-1E&ab_channel=SebastianLague
 
 
-The way it works is there are two types of animals in this echosystem:
+The way it works is there are two types of animals in this ecosystem:
 
 A wolf:
 
@@ -25,21 +26,37 @@ The first screen is the main menu, where the user can choose to start the simula
 
 <img width="632" alt="image" src="https://user-images.githubusercontent.com/73134488/213860485-874f3982-fd18-48f9-8354-d14db13e285e.png">
 
-In the setting menu, the user can choose the number of wolves and sheep that will appear at the start of the simmulation:
+In the setting menu, the user can choose the number of wolves and sheep that will appear at the start of the simulation:
 
 ![settings](https://user-images.githubusercontent.com/73134488/213860527-c8f10104-8372-45bb-9618-bbb879cda3bb.jpg)
 
-after the simulation is starting, the wolves and sheep will wonder around the scene looking for food:
+after the simulation is starting, the wolves and sheep will wander around the scene looking for food:
 
 [Untitled video - Screen Recording - 1_21_2023, 11_22_04 AM.webm](https://user-images.githubusercontent.com/73134488/213860728-694a697d-b82f-474a-9fcf-49de48cc845e.webm)
 
 The user can move the camera around the scene using the keyboard arrows and the mouse scroller. 
 
+Each animal has a hunger bar floating above it. every four seconds the hunger bar is emptied by a certain amount unless the animal found food, and then it's filled.
+
+If two animals of the same species and different gender encounter each other, there's a certein probabilty the female will get pregnent. and after a few seconds will give birth to new animals.
+
 Each animal (wolf and sheep) has the next traits:
 * Gender - can be a male or a female
 * Speed - deternmines the speed of the movement of the animal around the scene
-* Mating Desire - 
-* Likeliness To GetSick -
-* Longevity - 
-* Attractivnes - 
-* Amune System Probs - 
+* Mating Desire - everytime an animal sees food, there's a certein probability it will approach the food. if an animal has a high mating desire, there's a higher chance it will prefer to avoid the food and keep looking for a mate.
+* Likeliness To GetSick - every five seconds, there is a "virus" spreading, and each animal has a certain probability to catch it. the Likeliness To GetSick trait determines the probability of an animal catching the virus. if the animal caught it, it will become green and its speed will decrease.
+
+![sickness](https://user-images.githubusercontent.com/73134488/213861522-a68d9bb8-f54e-4355-92d2-8e035d30dcec.jpg)
+
+* Immune System Probs -  if an animal caught the virus, after ten seconds (from the moment the animal caught it) a random number from 0 to 1 is generated, and if it's higher than the animal's Immune System Probs trait, the animal will die.
+
+![likely](https://user-images.githubusercontent.com/73134488/213861565-0d30f9ce-2ff6-49c5-8682-27a0585ba2e8.jpg)
+
+* Longevity - the amount of time an animal lives in the simulation.
+
+* Attractivnes - when a female animal encounters another male animal of the same species, it chooses to mate with it based on the amount of attractiveness trait it has. if it's lower than the female's attractiveness by 0.12, the female will not mate with the male. 
+
+![attractivnessCode](https://user-images.githubusercontent.com/73134488/213861456-e37116fe-ef5d-450b-a861-0ff5f2bf9ad8.jpg)
+
+After starting the simulation, the user can decide to stop the simulation and observe some statistics about the last simulation run.
+
