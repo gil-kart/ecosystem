@@ -130,9 +130,6 @@ public class StatisticsMaker : MonoBehaviour
         aveWolfAttractivnes.Add(attractivnes / allWolves.Length);
         aveWolfMatingDesire.Add(matingDesire / allWolves.Length);
         aveWolfAmuneSystemProbs.Add(ammuneSystemProb / allWolves.Length);
-
-        Debug.Log(attractivnes / allWolves.Length);
-        Debug.Log(matingDesire / allWolves.Length);
     }
 
 }

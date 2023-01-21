@@ -116,7 +116,7 @@ public class Wolf : MonoBehaviour
 
     public void spawn()
     {
-        int numOfOffsprings = Random.Range(1,   2);
+        int numOfOffsprings = Random.Range(1,   3);
         for (int i = 0; i < numOfOffsprings && curNumerOfWolves < MAXNUMBEROFWOLVES && !isYoung; i++)
         {
             _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;  // 50% for the offspring to be male or female

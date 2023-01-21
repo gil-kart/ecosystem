@@ -1516,6 +1516,8 @@ MonoBehaviour:
   wolfCount: {fileID: 2106244222}
   sheepCount: {fileID: 1520723478}
   tmpDropdown: {fileID: 1345412915}
+  scene:
+    m_Handle: 0
   selectedScene: Forrest
 --- !u!1 &926445040
 GameObject:
@@ -1714,7 +1716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &961716839
 RectTransform:
   m_ObjectHideFlags: 0

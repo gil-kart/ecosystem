@@ -49,7 +49,6 @@ public class StartMenu : MonoBehaviour
 
     public void updateData(int updatedSheepCount,int updatedWolfCount, string updatedSelectedScene)
     {
-        Debug.Log("!!!!!!!!!");
         this.sheepCount = updatedSheepCount;
         this.wolfCount = updatedWolfCount;
         this.selectedScene = updatedSelectedScene;

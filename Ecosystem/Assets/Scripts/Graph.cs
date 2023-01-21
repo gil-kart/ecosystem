@@ -86,13 +86,6 @@ public class Graph : MonoBehaviour
                 CreateDotConnection(lastCircle.GetComponent<RectTransform>().anchoredPosition, circle.GetComponent<RectTransform>().anchoredPosition);
             }
             lastCircle = circle;
-
-
-         //   RectTransform labelX = Instantiate(labelTemplateX);
-         //   labelX.SetParent(graphContainer, false);
-         //   labelX.gameObject.SetActive(true);
-         //   labelX.anchoredPosition = new Vector2(70 + i * graphWidth / valueList.Count, 20f);
-         //   labelX.GetComponent<Text>().text = i.ToString();
         }
 
         

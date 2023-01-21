@@ -135,7 +135,6 @@ public class Player : MonoBehaviour
             Player other = collision.gameObject.GetComponent<Player>();
             if (!isYoung && !isPregnent && isFemale && !other.isFemale && numberOfPregnencys < 4 && other.getAttractivnes() >= attractivnes - 0.12)
             {
-               // numberOfPregnencys++;
                 isPregnent = true;
                 partner = other;
                 Invoke("spawn", 4.0f); // sheep will spawn offsprings in 10 seconds from now
@@ -217,12 +216,12 @@ public class Player : MonoBehaviour
         {
             float sickProb = Random.value;
             if (sickProb < likelinessToGetSick)
-            {   // if we enter, the sheep got sick
+            {   // if we enter, the animal got sick
                 isSick = true;
                 originalSpeed = speed;
                 healthTimer = 0;
 
-                // slow sheep's speed and change sheep's color to a "sick" color
+                // slow animal's speed and change animal's color to a "sick" color
                 playerNaveMesh.updateSpeed((int)(speed / 4));
                 GetComponent<Renderer>().material.color = Color.green; 
             }
@@ -234,7 +233,7 @@ public class Player : MonoBehaviour
             healthTimer += Time.deltaTime; // count sicknes time
         }
 
-        if (healthTimer > 10) // make sheep healthy after 10 seconds;
+        if (healthTimer > 10) 
         {
             float chanceToDie = Random.value;
             if (chanceToDie > amuneSystemProbs)
