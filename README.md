@@ -60,3 +60,14 @@ Each animal (wolf and sheep) has the next traits:
 
 After starting the simulation, the user can decide to stop the simulation and observe some statistics about the last simulation run.
 
+the statistics shows 2d graphs that contains the average amount of each trait as a function of time since the beginning of the simulation
+
+![graph](https://user-images.githubusercontent.com/73134488/213873860-b025a921-60e3-4e02-9089-a7e70d181444.jpg)
+
+![graph2](https://user-images.githubusercontent.com/73134488/213873861-22adce8e-35c0-4a06-8820-2c34890f409b.jpg)
+
+The way it works, is that every four seconds, the data of all of the wolves and sheep is being collected and and added to lists that will presented in the statistics screen:
+
+![stats](https://user-images.githubusercontent.com/73134488/213874004-9db7cdd1-805c-44b8-8750-edac3868333a.jpg)
+
+
