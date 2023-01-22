@@ -1,7 +1,7 @@
 
 # ecosystem
 
-This is a computer graphics university project I did. it is an implementation of an ecosystem. I used unity to build this project.
+This is a computer graphics project I did at the university of haifa. it is an implementation of an ecosystem. I used unity to build this project.
 
 The idea for the project came from this youtube video:
 
