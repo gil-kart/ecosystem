@@ -54,7 +54,7 @@ public class Wolf : MonoBehaviour
         timePassedSinceStart += Time.deltaTime;
         if (timePassedSinceStart > 3)
         {
-            curHunger = (float)(curHunger - 0.15);
+            curHunger = (float)(curHunger - 0.09);
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
             if (curHunger <= 0)
@@ -105,18 +105,18 @@ public class Wolf : MonoBehaviour
         if (collision.gameObject.CompareTag("WolfTag") && collision.collider.GetType().Name == "BoxCollider" && isFemale)
         {
             Wolf other = collision.gameObject.GetComponent<Wolf>();
-            if (!isYoung && !isPregnent && isFemale && !other.isFemale && !other.isYoung && other.getAttractivnes() >= attractivnes - 0.12)
+            if (!isYoung && !isPregnent && isFemale && !other.isFemale && !other.isYoung && other.getAttractivnes() >= attractivnes - 0.16)
             {
                 isPregnent = true;
                 partner = other;
-                Invoke("spawn", 5.0f); // female wolf will spawn offsprings in 10 seconds from now
+                Invoke("spawn", 5.0f); // female wolf will spawn offsprings in 5 seconds from now
             }
         }
     }
 
     public void spawn()
     {
-        int numOfOffsprings = Random.Range(1,   3);
+        int numOfOffsprings = Random.Range(1,   4);
         for (int i = 0; i < numOfOffsprings && curNumerOfWolves < MAXNUMBEROFWOLVES && !isYoung; i++)
         {
             _ = Random.value > 0.5f ? offSpring.isFemale = true : offSpring.isFemale = false;  // 50% for the offspring to be male or female
