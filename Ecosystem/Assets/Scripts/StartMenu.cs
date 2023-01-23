@@ -43,8 +43,8 @@ public class StartMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false; // to do: change to Application.Quit() if deploying!
-        //Application.Quit(); 
+        //UnityEditor.EditorApplication.isPlaying = false; // to do: change to Application.Quit() if deploying!
+        Application.Quit(); 
     }
 
     public void updateData(int updatedSheepCount,int updatedWolfCount, string updatedSelectedScene)
