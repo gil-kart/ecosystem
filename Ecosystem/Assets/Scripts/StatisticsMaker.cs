@@ -12,7 +12,7 @@ using Scene = UnityEngine.SceneManagement.Scene;
 public class StatisticsMaker : MonoBehaviour
 {
     private float timePassed = 0f;
-    int MAX_LIST_SIZE = 200;
+    int MAX_LIST_SIZE = 100;
     List<double> aveSheepSpeed = new List<double>();
     List<double> aveSheepLongevity = new List<double>();
     List<double> aveSheepAttractivnes = new List<double>();
@@ -79,7 +79,7 @@ public class StatisticsMaker : MonoBehaviour
         double curAve = 0;
         for (int i=0; i < curList.Count; i++)
         {
-            if (i % 4 != 0)
+            if (i % 2 != 0)
             {
                 curAve += curList[i]; 
                 curList.RemoveAt(i);
@@ -87,7 +87,7 @@ public class StatisticsMaker : MonoBehaviour
             }
             else
             {
-                curList[i] = (curAve + curList[i]) / 4;
+                curList[i] = (curAve + curList[i]) / 2;
                 curAve = 0;
             }
         }
