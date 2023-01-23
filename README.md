@@ -1,7 +1,7 @@
 
 # ecosystem
 
-This is a computer graphics university project I did. it is an implementation of an ecosystem.
+This is a computer graphics project I did at the university of haifa. it is an implementation of an ecosystem. I used unity to build this project.
 
 The idea for the project came from this youtube video:
 
@@ -30,7 +30,7 @@ In the setting menu, the user can choose the number of wolves and sheep that wil
 
 ![settings](https://user-images.githubusercontent.com/73134488/213860527-c8f10104-8372-45bb-9618-bbb879cda3bb.jpg)
 
-after the simulation is starting, the wolves and sheep will wander around the scene looking for food:
+after the simulation is starting, the wolves and sheep will wander around the scene looking for food, that will randomly appear at the scene every two seconds:
 
 [Untitled video - Screen Recording - 1_21_2023, 11_22_04 AM.webm](https://user-images.githubusercontent.com/73134488/213860728-694a697d-b82f-474a-9fcf-49de48cc845e.webm)
 
@@ -75,4 +75,5 @@ The way it works, is that every four seconds, the data of all of the wolves and 
 
 ![stats](https://user-images.githubusercontent.com/73134488/213874004-9db7cdd1-805c-44b8-8750-edac3868333a.jpg)
 
+the user can run the simulation and reflect the results. if the simulation is being run for a significant amount of time, the user can see which traits are more beneficial for survival in this environment. for instance, if we run the simulation long enough we could that the average amount of Immune System Probs trait, will go up because if an animal has a lower probabilty to survive sickness, it will not survive. 
 
