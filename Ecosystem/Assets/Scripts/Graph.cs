@@ -79,7 +79,7 @@ public class Graph : MonoBehaviour
         for(int i = 0; i < valueList.Count; i++)
         {
             float xPosition = i * xSize + 35;
-            double yPosition = (valueList[i] / yMax) * graphHeight + 45;
+            double yPosition = (valueList[i] / yMax) * graphHeight + 50;
             GameObject circle = CreateCircle(new Vector2(60 + i * graphWidth / valueList.Count, (float)yPosition));
             if(lastCircle != null)
             {

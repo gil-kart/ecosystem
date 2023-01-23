@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 //using UnityEditor;
 //using UnityEditor.SearchService;
@@ -11,6 +12,7 @@ using Scene = UnityEngine.SceneManagement.Scene;
 public class StatisticsMaker : MonoBehaviour
 {
     private float timePassed = 0f;
+    int MAX_LIST_SIZE = 200;
     List<double> aveSheepSpeed = new List<double>();
     List<double> aveSheepLongevity = new List<double>();
     List<double> aveSheepAttractivnes = new List<double>();
@@ -24,9 +26,25 @@ public class StatisticsMaker : MonoBehaviour
     List<double> aveWolfMatingDesire = new List<double>();
     List<double> aveWolfAmuneSystemProbs = new List<double>();
     List<double> aveWolflikelinessToGetSick = new List<double>();
+    List<List<double>> dataList;
     void Start()
     {
         timePassed = 0f;
+        dataList = new()
+        {
+            aveSheepSpeed,
+            aveSheeolikelinessToGetSick,
+            aveSheepLongevity,
+            aveSheepAttractivnes,
+            aveSheepMatingDesire,
+            aveSheepAmuneSystemProbs,
+            aveWolfSpeed,
+            aveWolflikelinessToGetSick,
+            aveWolfLongevity,
+            aveWolfAttractivnes,
+            aveWolfMatingDesire,
+            aveWolfAmuneSystemProbs,
+    };
     }
 
     // Update is called once per frame
@@ -38,13 +56,42 @@ public class StatisticsMaker : MonoBehaviour
             timePassed = 0;
             Player[] allSheep = UnityEngine.Object.FindObjectsOfType<Player>();
             Wolf[] allWolves = UnityEngine.Object.FindObjectsOfType<Wolf>();
-            appendSheepStats(allSheep);
-            appendWoldStats(allWolves);
+            if (allSheep.Length > 0)
+                appendSheepStats(allSheep);
+            if (allWolves.Length > 0)
+                appendWoldStats(allWolves);
+
+            foreach(List<double> curList in dataList)
+            {
+                if (curList.Count > MAX_LIST_SIZE)
+                {
+                    normelizeListSize(curList);
+                }
+            }
+
+            
 
         }
     }
 
-    
+    private void normelizeListSize(List<double> curList)
+    {
+        double curAve = 0;
+        for (int i=0; i < curList.Count; i++)
+        {
+            if (i % 4 != 0)
+            {
+                curAve += curList[i]; 
+                curList.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                curList[i] = (curAve + curList[i]) / 4;
+                curAve = 0;
+            }
+        }
+    }
 
     public void stopEcosystem()
     {
@@ -61,21 +108,7 @@ public class StatisticsMaker : MonoBehaviour
             await Task.Delay(5);
             saftyCount++;
         }
-        List<List<double>> dataList = new()
-        {
-            aveSheepSpeed,
-            aveSheeolikelinessToGetSick,
-            aveSheepLongevity,
-            aveSheepAttractivnes,
-            aveSheepMatingDesire,
-            aveSheepAmuneSystemProbs,
-            aveWolfSpeed,
-            aveWolflikelinessToGetSick,
-            aveWolfLongevity,
-            aveWolfAttractivnes,
-            aveWolfMatingDesire,
-            aveWolfAmuneSystemProbs,
-    };
+        
         FindObjectOfType<Graph>().SetData(dataList, 0);
         //FindObjectOfType<Graph>().ShowData(dataList[0]);
     }

@@ -14,7 +14,7 @@ public class Wolf : MonoBehaviour
     public int collisionCount = 0;
     public int trigerCount = 0;
     [SerializeField] float maxHunger = 3;
-    private float curHunger;
+    private float curHunger = 3;
     private float timePassed = 0f;
     private float timePassedSinceStart = 0f;
     private bool isFull;
@@ -39,7 +39,7 @@ public class Wolf : MonoBehaviour
 
     void Start()
     {
-        curHunger = maxHunger;
+        //curHunger = maxHunger;
         hungerBar.updateHungerBar(maxHunger, curHunger);
         isFull = true;
         attractivnes = Random.value;
@@ -54,7 +54,7 @@ public class Wolf : MonoBehaviour
         timePassedSinceStart += Time.deltaTime;
         if (timePassedSinceStart > 3)
         {
-            curHunger = (float)(curHunger - 0.09);
+            curHunger = (float)(curHunger - 0.1);
             hungerBar.updateHungerBar(maxHunger, curHunger);
             timePassedSinceStart = 0;
             if (curHunger <= 0)
@@ -155,6 +155,7 @@ public class Wolf : MonoBehaviour
         offSpr.amuneSystemProbs = (1 - Weight) * partner.getAmuneSystemProbs() + Weight * this.getAmuneSystemProbs() + Random.Range(-0.05f, 0.05f);
 
         offSpr.curHunger = (float)(0.5 * partner.curHunger + 0.5 * this.curHunger);
+        offSpr.hungerBar.updateHungerBar(maxHunger, offSpr.curHunger);
 
     }
 
